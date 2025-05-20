@@ -1,0 +1,66 @@
+<script>
+  const preorderCustom = {
+      render: function(){
+          this.handleEvents()
+      },
+      handleEvents: function(){
+          const app = this;
+
+          document.addEventListener('globo.preorder.show.preorder', e => {
+              const { form, profile } = e.detail;
+              app.handleValidatePreorderStock(form)
+          })
+
+          app.handleUpdateCart()
+
+          window.addEventListener('load', () => {
+              sessionStorage.removeItem("gShowWarning")
+          })
+      },
+      handleValidatePreorderStock: function(form){
+          setTimeout(() => {
+              let preorderLimitElement = form.querySelector('[preorder-limit]')
+
+              if(preorderLimitElement){
+                  let preorderLimit = preorderLimitElement.getAttribute('preorder-limit')
+
+                  const productInfo = form.closest('product-info')
+
+                  if(productInfo){
+                      const quantityElement = productInfo.querySelector('input.quantity__input')
+
+                      if(quantityElement){
+                          const quantityActions = productInfo.querySelectorAll('input.quantity__input, .quantity__button')
+
+                          quantityActions.forEach(quantityAction => {
+                              ['blur', 'change'].forEach(action => {
+                                  quantityAction.addEventListener(action, () => {
+                                      if(parseInt(preorderLimit) < parseInt(quantityElement.value)){
+                                           if(!sessionStorage.getItem("gShowWarning")){
+                                               alert(`There are still ${preorderLimit} pre-order items that can be added to the cart`)
+                                               sessionStorage.setItem("gShowWarning", 'true')
+                                           }
+                                           quantityElement.value = preorderLimit;
+                                      }
+                                  })
+                              })
+                          })
+                      }
+                  }
+              }
+          }, 800)
+      },
+      handleUpdateCart: function(){
+          document.addEventListener('globo.preorder.update.cart', async e => {
+               const response = await fetch("".concat(window.location.origin, "/cart.js"));
+                const jsonData = await response.json();
+
+                if(window?.GloboPreorderParams?.cart && window?.Globo?.Preorder){
+                    window.GloboPreorderParams.cart = jsonData;
+                    window.Globo.Preorder.initPreorder()
+                }
+          })
+      }
+  }
+  preorderCustom.render()
+</script>

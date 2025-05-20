@@ -1,0 +1,139 @@
+{% schema %}
+{
+  "name": "Stockist Section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Stockist",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading-text",
+          "label": "Heading",
+          "default": "ONLINE"
+        },
+        {
+          "type": "richtext",
+          "id": "description-text",
+          "label": "Description",
+          "default": "<p>BLOOMINGDALES, NUULY, REVOLVE, SHOPBOP, SSENSE, THE ICONIC</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stockist Section",
+      "blocks": [
+        { "type": "text", "settings": { "heading-text": "ONLINE", "description-text": "<p>BLOOMINGDALES, NUULY, REVOLVE, SHOPBOP, SSENSE, THE ICONIC</p>" } },
+        { "type": "text", "settings": { "heading-text": "USA", "description-text": "<p>ANNABEL — Sag Harbor, NY<br>AQUELARRE — New York, NY<br>BIVOUAC — Ann Arbor, Michigan<br>CONCEPTS — Boston, Miami<br>COPELAND HAUS — Austin, Texas<br>INDIGO OCTOPUS — Fenwick Island, Delaware & Ocean City, Maryland<br>ISALIS — New York & San Francisco, California<br>JAIDE — Charlotte, NC<br>KALIFORNIA JEAN BAR — Truckee, California<br>KITH — Los Angeles, New York & Miami<br>LOU COLLECTIVE — Englewood, Colorado<br>ONFEMME — West Bloomfield, Michigan<br>PATRON OF THE NEW — Miami<br>ROOM EIGHT STUDIO — Boynton Beach, Florida<br>SAKS FIFTH AVENUE — Los Angeles, New York, & Brickell Miami<br>THE LA LA LOOK — Fort Lauderdale, Florida<br>TRAFFIC — Los Angeles</p>" } },
+        { "type": "text", "settings": { "heading-text": "CANADA", "description-text": "<p>EDITORIAL — Montreal<br>KITH — Toronto</p>" } },
+        { "type": "text", "settings": { "heading-text": "EUROPE & UK", "description-text": "<p>KITH — Paris<br>MIMA — Paris</p>" } },
+        { "type": "text", "settings": { "heading-text": "KOREA", "description-text": "<p>SHINSEGAE INTERNATIONAL — South Korea<br>JENTE — South Korea</p>" } },
+        { "type": "text", "settings": { "heading-text": "AUSTRALIA", "description-text": "<p>A'FAVOR — Sydney</p>" } },
+        { "type": "text", "settings": { "heading-text": "JAPAN", "description-text": "<p>GR8 — Tokyo</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .custom-text-section {
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .custom-text-inner-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 40%;
+    border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+  }
+
+  .custom-text-inner-wrapper:last-child {
+    border-bottom: none;
+  }
+
+  .custom-text-section h2 {
+    font-size: 16px;
+    margin: 3px 0;
+  }
+
+  .description {
+    width: 70%;
+    padding-left: 70px;
+    margin-bottom: 15px;
+  }
+
+  .description p{
+    font-weight: normal;
+    line-height: 28px;
+    color: #000000;
+  }
+
+  /* Media Queries for Responsive Design */
+  @media (max-width: 1024px) { /* Tablets */
+    .custom-text-inner-wrapper {
+      width: 60%;
+    }
+    .custom-text-section h2 {
+      font-size: 14px;
+    }
+    .description {
+      width: 80%;
+    }
+  }
+
+  @media (max-width: 768px) { /* Mobile Devices */
+    .custom-text-inner-wrapper {
+      width: 90%;
+
+    }
+    .custom-text-section h2 {
+      font-size: 14px;
+    }
+    .description p {
+      font-size: 12px;
+    }
+
+  }
+
+  @media (max-width: 480px) { /* Smaller Mobile Screens */
+    .custom-text-inner-wrapper {
+      width: 90%;
+
+    }
+    .heading{
+      width: 20%;
+    }
+    .custom-text-section h2 {
+      font-size: 14px;
+    }
+    .description p {
+      font-size: 12px;
+    }
+
+  }
+</style>
+
+<div class="custom-text-section">
+  {% for block in section.blocks %}
+    <div class="custom-text-inner-wrapper">
+      <div class="heading">
+        <h2>{{ block.settings['heading-text'] }}</h2>
+      </div>
+      <div class="description">
+        {{ block.settings['description-text'] }}
+      </div>
+    </div>
+  {% endfor %}
+</div>
